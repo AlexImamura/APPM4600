@@ -1,0 +1,39 @@
+import numpy as np
+import matplotlib.pyplot as plt
+x = np.arange(1.920, 2.081, 0.001)
+p = x**9 - 18*x**8 + 144*x**7- 672*x**6 + 2016*x**5- 4032*x**4 +5372*x**3- 4608 * x**2 +2304*x - 512
+p_exp = (x-2)**9
+plt.figure()
+plt.plot(x,p)
+plt.xlabel('x')
+plt.ylabel('p(x)')
+plt.show()
+
+plt.figure()
+plt.plot(x,p_exp)
+plt.xlabel('x')
+plt.ylabel('p_exp')
+plt.show()
+
+delta = np.logspace(-16,0,17)
+x_vals = [np.pi,1e6]
+
+
+for x1 in x_vals:
+    y1 = np.cos(x1 + delta) - np.cos(x1)
+    y2 = -2*np.sin((2*x1 + delta)/2)*np.sin(delta/2)
+    y3 = np.abs(y2 - y1)
+    y4 = -delta*np.sin(x1) - (delta**2/2)*np.cos(x1)
+    error_taylor = np.abs(y4-y2)
+
+plt.figure()
+plt.xlabel("delta")
+plt.ylabel("|y2 - y1|")
+plt.loglog(delta,y3)
+plt.show()
+
+plt.figure()
+plt.loglog(delta,error_taylor)
+plt.xlabel("delta")
+plt.ylabel("Absolute Error from Taylor")
+plt.show()
