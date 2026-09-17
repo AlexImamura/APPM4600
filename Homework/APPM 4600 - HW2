@@ -96,7 +96,7 @@ driver()
 # Problem 5
 #========================================================
 
-def driver():
+def driver1():
 # use routines
     f = lambda x: x**3 + x - 4
     a = 1
@@ -155,7 +155,7 @@ def bisection(f,a,b,tol):
     ier = 0
     print('count= ', count)
     return [astar, ier]
-driver()
+driver1()
 
 
 #========================================================
@@ -169,6 +169,57 @@ y = x - 4*np.sin(2*x) - 3
 plt.plot(x,y)
 plt.xlabel("x")
 plt.ylabel("f(x)")
-plt.title("f(x) = x - 4sinx - 3")
+plt.title("f(x) = x - 4sin(2x) - 3")
 plt.axhline(0)
 plt.show()
+
+
+def driver2():
+# test functions
+    f1 = lambda x: -np.sin(2*x) + 5*x/4 - 3/4
+    gp = lambda x: -2*np.cos(2*x) + 5/4
+
+    Nmax = 100
+    tol = 1e-11
+# test f1 '''
+    init_guess = np.linspace(-1.5,7.5,10)
+    
+
+    for x0 in init_guess:
+        [xstar,ier,guesses] = fixedpt(f1,x0,tol,Nmax)
+        
+
+        if ier == 0:
+            print("|g'(x)| = ", abs(gp(xstar)))
+            print("initial guess:", x0)
+            print('the approximate root is:',xstar)
+            print('f1(xstar):',f1(xstar))
+            print('Error message reads:',ier)
+            print()
+
+# define routines
+def fixedpt(f,x0,tol,Nmax):
+# ''' x0 = initial guess'''
+# ''' Nmax = max number of iterations'''
+# ''' tol = stopping tolerance'''
+    count = 0
+
+    guesses = []
+
+    while (count <Nmax):
+        count = count +1
+        x1 = f(x0)
+        guesses.append(x1)
+        if (abs(x1-x0) <tol):
+            xstar = x1
+            ier = 0
+            return [xstar,ier,np.array(guesses)]
+        x0 = x1
+
+    xstar = x1
+    ier = 1
+    return [xstar,ier,np.array(guesses)]
+
+
+
+driver2()
